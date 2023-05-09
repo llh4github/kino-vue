@@ -46,8 +46,8 @@ const data = ref<IDataItem[]>([
     name: "待办",
     type: "warning",
     list: todoData
-  }
-])
+  },
+],)
 
 const handleHistory = () => {
   ElMessage.success(`跳转到${activeName.value}历史页面`)

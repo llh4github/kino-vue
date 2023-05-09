@@ -2,7 +2,7 @@
 import { reactive, ref } from "vue"
 import { useRouter } from "vue-router"
 import { useUserStore } from "@/store/modules/user"
-import { User, Lock, Key, Picture, Loading } from "@element-plus/icons-vue"
+import { Key, Lock, Picture, User } from "@element-plus/icons-vue"
 import ThemeSwitch from "@/components/ThemeSwitch/index.vue"
 import { type FormInstance, FormRules } from "element-plus"
 import { getLoginCodeApi } from "@/api/login"
@@ -19,16 +19,16 @@ const codeUrl = ref("")
 const loginForm: ILoginRequestData = reactive({
   username: "admin",
   password: "12345678",
-  code: ""
-})
+  code: "",
+},)
 /** 登录表单校验规则 */
 const loginFormRules: FormRules = {
-  username: [{ required: true, message: "请输入用户名", trigger: "blur" }],
+  username: [{ required: true, message: "请输入用户名", trigger: "blur", }],
   password: [
-    { required: true, message: "请输入密码", trigger: "blur" },
-    { min: 8, max: 16, message: "长度在 8 到 16 个字符", trigger: "blur" }
+    { required: true, message: "请输入密码", trigger: "blur", },
+    { min: 8, max: 16, message: "长度在 8 到 16 个字符", trigger: "blur", }
   ],
-  code: [{ required: true, message: "请输入验证码", trigger: "blur" }]
+  code: [{ required: true, message: "请输入验证码", trigger: "blur", }]
 }
 /** 登录逻辑 */
 const handleLogin = () => {
@@ -39,10 +39,10 @@ const handleLogin = () => {
         .login({
           username: loginForm.username,
           password: loginForm.password,
-          code: loginForm.code
-        })
+          code: loginForm.code,
+        },)
         .then(() => {
-          router.push({ path: "/" })
+          router.push({ path: "/", })
         })
         .catch(() => {
           createCode()
@@ -114,16 +114,20 @@ createCode()
               <template #append>
                 <el-image :src="codeUrl" @click="createCode" draggable="false">
                   <template #placeholder>
-                    <el-icon><Picture /></el-icon>
+                    <el-icon>
+                      <Picture />
+                    </el-icon>
                   </template>
                   <template #error>
-                    <el-icon><Loading /></el-icon>
+                    <el-icon>
+                      <Loading />
+                    </el-icon>
                   </template>
                 </el-image>
               </template>
             </el-input>
           </el-form-item>
-          <el-button :loading="loading" type="primary" size="large" @click.prevent="handleLogin"> 登 录 </el-button>
+          <el-button :loading="loading" type="primary" size="large" @click.prevent="handleLogin"> 登 录</el-button>
         </el-form>
       </div>
     </div>
@@ -137,32 +141,39 @@ createCode()
   align-items: center;
   width: 100%;
   min-height: 100%;
+
   .theme-switch {
     position: fixed;
     top: 5%;
     right: 5%;
     cursor: pointer;
   }
+
   .login-card {
     width: 480px;
     border-radius: 20px;
     box-shadow: 0 0 10px #dcdfe6;
     background-color: #fff;
     overflow: hidden;
+
     .title {
       display: flex;
       justify-content: center;
       align-items: center;
       height: 150px;
+
       img {
         height: 100%;
       }
     }
+
     .content {
       padding: 20px 50px 50px 50px;
+
       :deep(.el-input-group__append) {
         padding: 0;
         overflow: hidden;
+
         .el-image {
           width: 100px;
           height: 40px;
@@ -172,6 +183,7 @@ createCode()
           text-align: center;
         }
       }
+
       .el-button {
         width: 100%;
         margin-top: 10px;

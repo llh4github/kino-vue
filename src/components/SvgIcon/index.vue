@@ -9,8 +9,8 @@ const props = defineProps({
   name: {
     type: String,
     required: true
-  }
-})
+  },
+},)
 
 const symbolId = computed(() => `#${props.prefix}-${props.name}`)
 </script>

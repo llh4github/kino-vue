@@ -18,7 +18,7 @@ import {
 
 defineOptions({
   name: "VxeTable"
-})
+},)
 
 //#region vxe-grid
 interface IRowMeta {
@@ -47,36 +47,36 @@ const xGridOpt: VxeGridProps = reactive({
         field: "username",
         itemRender: {
           name: "$input",
-          props: { placeholder: "用户名", clearable: true }
-        }
+          props: { placeholder: "用户名", clearable: true },
+        },
       },
       {
         field: "phone",
         itemRender: {
           name: "$input",
-          props: { placeholder: "手机号", clearable: true }
-        }
+          props: { placeholder: "手机号", clearable: true },
+        },
       },
       {
         itemRender: {
           name: "$buttons",
           children: [
             {
-              props: { type: "submit", content: "查询", status: "primary" }
+              props: { type: "submit", content: "查询", status: "primary" },
             },
             {
-              props: { type: "reset", content: "重置" }
-            }
+              props: { type: "reset", content: "重置" },
+            },
           ]
-        }
+        },
       }
-    ]
+    ],
   },
   /** 工具栏配置 */
   toolbarConfig: {
     refresh: true,
     custom: true,
-    slots: { buttons: "toolbar-btns" }
+    slots: { buttons: "toolbar-btns" },
   },
   /** 自定义列配置项 */
   customConfig: {
@@ -121,8 +121,8 @@ const xGridOpt: VxeGridProps = reactive({
       width: "150px",
       fixed: "right",
       showOverflow: false,
-      slots: { default: "row-operate" }
-    }
+      slots: { default: "row-operate" },
+    },
   ],
   /** 数据代理配置项（基于 Promise API） */
   proxyConfig: {
@@ -156,7 +156,7 @@ const xGridOpt: VxeGridProps = reactive({
               }
             }
             xGridOpt.loading = false
-            resolve({ total, result })
+            resolve({ total, result },)
           }
 
           /** 接口需要的参数 */
@@ -170,8 +170,8 @@ const xGridOpt: VxeGridProps = reactive({
           getTableDataApi(params).then(callback).catch(callback)
         })
       }
-    }
-  }
+    },
+  },
 })
 //#endregion
 
@@ -186,7 +186,7 @@ const xModalOpt: VxeModalProps = reactive({
     xFormDom.value?.clearValidate()
     return Promise.resolve()
   }
-})
+},)
 //#endregion
 
 //#region vxe-form
@@ -219,13 +219,13 @@ const xFormOpt = reactive<VxeFormProps>({
       itemRender: {
         name: "$buttons",
         children: [
-          { props: { content: "取消" }, events: { click: () => xModalDom.value?.close() } },
+          { props: { content: "取消" }, events: { click: () => xModalDom.value?.close() }, },
           {
             props: { type: "submit", content: "确定", status: "primary" },
-            events: { click: () => crudStore.onSubmitForm() }
-          }
+            events: { click: () => crudStore.onSubmitForm() },
+          },
         ]
-      }
+      },
     }
   ],
   /** 校验规则 */
@@ -233,7 +233,7 @@ const xFormOpt = reactive<VxeFormProps>({
     username: [
       {
         required: true,
-        validator: ({ itemValue }) => {
+        validator: ({ itemValue },) => {
           if (!itemValue) {
             return new Error("请输入")
           }
@@ -241,12 +241,12 @@ const xFormOpt = reactive<VxeFormProps>({
             return new Error("空格无效")
           }
         }
-      }
+      },
     ],
     password: [
       {
         required: true,
-        validator: ({ itemValue }) => {
+        validator: ({ itemValue },) => {
           if (!itemValue) {
             return new Error("请输入")
           }
@@ -254,10 +254,10 @@ const xFormOpt = reactive<VxeFormProps>({
             return new Error("空格无效")
           }
         }
-      }
-    ]
+      },
+    ],
   }
-})
+},)
 //#endregion
 
 //#region CRUD
@@ -358,7 +358,7 @@ const crudStore = reactive({
   },
   /** 更多自定义方法 */
   moreFunc: () => {}
-})
+},)
 //#endregion
 </script>
 

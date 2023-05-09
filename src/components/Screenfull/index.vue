@@ -18,8 +18,8 @@ const props = defineProps({
   exitTips: {
     type: String,
     default: "退出全屏"
-  }
-})
+  },
+},)
 
 const tips = ref<string>(props.openTips)
 const isFullscreen = ref<boolean>(false)

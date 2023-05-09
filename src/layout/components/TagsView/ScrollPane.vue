@@ -10,8 +10,8 @@ const props = defineProps({
   tagRefs: {
     type: Object as PropType<InstanceType<typeof RouterLink>[]>,
     required: true
-  }
-})
+  },
+},)
 
 const route = useRoute()
 const settingsStore = useSettingsStore()
@@ -99,7 +99,7 @@ watch(
   },
   {
     deep: true
-  }
+  },
 )
 
 const showScreenfull = computed(() => {

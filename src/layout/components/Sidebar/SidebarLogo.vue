@@ -3,8 +3,8 @@ const props = defineProps({
   collapse: {
     type: Boolean,
     default: true
-  }
-})
+  },
+},)
 </script>
 
 <template>

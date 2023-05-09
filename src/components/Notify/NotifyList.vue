@@ -6,8 +6,8 @@ const props = defineProps({
   list: {
     type: Object as PropType<IListItem[]>,
     required: true
-  }
-})
+  },
+},)
 </script>
 
 <template>

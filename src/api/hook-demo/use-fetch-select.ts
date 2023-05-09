@@ -14,7 +14,7 @@ const SELECT_RESPONSE_DATA = {
       label: "橘子",
       value: 3,
       disabled: true
-    }
+    },
   ],
   message: "获取 Select 数据成功"
 }

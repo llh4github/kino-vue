@@ -6,8 +6,8 @@ const props = defineProps({
   buttonTop: {
     type: Number,
     default: 350
-  }
-})
+  },
+},)
 
 const buttonTopCss = props.buttonTop + "px"
 const show = ref(false)

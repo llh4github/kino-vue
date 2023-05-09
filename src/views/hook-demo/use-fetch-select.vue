@@ -4,7 +4,7 @@ import { getSelectDataApi } from "@/api/hook-demo/use-fetch-select"
 
 const { loading, options, value } = useFetchSelect({
   api: getSelectDataApi
-})
+},)
 </script>
 
 <template>

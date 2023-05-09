@@ -20,7 +20,7 @@ export const notifyData: IListItem[] = [
     title: "V3 Admin 上线啦",
     datetime: "一年前",
     description: "一个中后台管理系统基础解决方案，基于 Vue3、TypeScript、Element Plus 和 Pinia"
-  }
+  },
 ]
 
 export const messageData: IListItem[] = [
@@ -41,7 +41,7 @@ export const messageData: IListItem[] = [
     title: "来自龙猫",
     description: "心存善意，定能途遇天使",
     datetime: "1988-04-16"
-  }
+  },
 ]
 
 export const todoData: IListItem[] = [
@@ -62,5 +62,5 @@ export const todoData: IListItem[] = [
     description: "这家伙很懒，什么都没留下",
     extra: "已超时",
     status: "danger"
-  }
+  },
 ]

@@ -25,7 +25,7 @@ const themeList: IThemeList[] = [
   {
     title: "深蓝",
     name: "dark-blue"
-  }
+  },
 ]
 
 /** 正在应用的主题名称 */

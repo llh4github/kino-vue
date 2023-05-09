@@ -1,7 +1,7 @@
 import { type VxeColumnPropTypes } from "vxe-table/types/column"
 
 const solts: VxeColumnPropTypes.Slots = {
-  default: ({ row, column }) => {
+  default: ({ row, column },) => {
     const cellValue = row[column.field]
     let type = "danger"
     let value = "禁用"

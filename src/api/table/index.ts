@@ -7,7 +7,7 @@ export function createTableDataApi(data: Table.ICreateTableRequestData) {
     url: "table",
     method: "post",
     data
-  })
+  },)
 }
 
 /** 删 */
@@ -15,7 +15,7 @@ export function deleteTableDataApi(id: string) {
   return request({
     url: `table/${id}`,
     method: "delete"
-  })
+  },)
 }
 
 /** 改 */
@@ -24,7 +24,7 @@ export function updateTableDataApi(data: Table.IUpdateTableRequestData) {
     url: "table",
     method: "put",
     data
-  })
+  },)
 }
 
 /** 查 */
@@ -33,5 +33,5 @@ export function getTableDataApi(params: Table.IGetTableRequestData) {
     url: "table",
     method: "get",
     params
-  })
+  },)
 }

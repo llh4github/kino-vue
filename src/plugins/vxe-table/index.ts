@@ -57,8 +57,8 @@ VXETable.setup({
     showTitleOverflow: true,
     transfer: true,
     draggable: false
-  }
-})
+  },
+},)
 
 export function loadVxeTable(app: App) {
   /** Vxe Table 组件完整引入 */

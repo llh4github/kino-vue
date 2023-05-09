@@ -8,7 +8,7 @@ import { usePagination } from "@/hooks/usePagination"
 
 defineOptions({
   name: "ElementPlus"
-})
+},)
 
 const loading = ref<boolean>(false)
 const { paginationData, handleCurrentChange, handleSizeChange } = usePagination()
@@ -19,10 +19,10 @@ const formRef = ref<FormInstance | null>(null)
 const formData = reactive({
   username: "",
   password: ""
-})
+},)
 const formRules: FormRules = reactive({
-  username: [{ required: true, trigger: "blur", message: "请输入用户名" }],
-  password: [{ required: true, trigger: "blur", message: "请输入密码" }]
+  username: [{ required: true, trigger: "blur", message: "请输入用户名" },],
+  password: [{ required: true, trigger: "blur", message: "请输入密码" },]
 })
 const handleCreate = () => {
   formRef.value?.validate((valid: boolean) => {
@@ -31,7 +31,7 @@ const handleCreate = () => {
         createTableDataApi({
           username: formData.username,
           password: formData.password
-        }).then(() => {
+        },).then(() => {
           ElMessage.success("新增成功")
           dialogVisible.value = false
           getTableData()
@@ -40,7 +40,7 @@ const handleCreate = () => {
         updateTableDataApi({
           id: currentUpdateId.value,
           username: formData.username
-        }).then(() => {
+        },).then(() => {
           ElMessage.success("修改成功")
           dialogVisible.value = false
           getTableData()
@@ -64,7 +64,7 @@ const handleDelete = (row: IGetTableData) => {
     confirmButtonText: "确定",
     cancelButtonText: "取消",
     type: "warning"
-  }).then(() => {
+  },).then(() => {
     deleteTableDataApi(row.id).then(() => {
       ElMessage.success("删除成功")
       getTableData()
@@ -88,7 +88,7 @@ const searchFormRef = ref<FormInstance | null>(null)
 const searchData = reactive({
   username: "",
   phone: ""
-})
+},)
 const getTableData = () => {
   loading.value = true
   getTableDataApi({
@@ -96,7 +96,7 @@ const getTableData = () => {
     size: paginationData.pageSize,
     username: searchData.username || undefined,
     phone: searchData.phone || undefined
-  })
+  },)
     .then((res) => {
       paginationData.total = res.data.total
       tableData.value = res.data.list
@@ -127,7 +127,7 @@ const handleRefresh = () => {
 //#endregion
 
 /** 监听分页参数的变化 */
-watch([() => paginationData.currentPage, () => paginationData.pageSize], getTableData, { immediate: true })
+watch([() => paginationData.currentPage, () => paginationData.pageSize], getTableData, { immediate: true },)
 </script>
 
 <template>

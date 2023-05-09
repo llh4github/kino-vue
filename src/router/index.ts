@@ -14,15 +14,15 @@ export const constantRoutes: RouteRecordRaw[] = [
       {
         path: "/redirect/:path(.*)",
         component: () => import("@/views/redirect/index.vue")
-      }
-    ]
+      },
+    ],
   },
   {
     path: "/403",
     component: () => import("@/views/error-page/403.vue"),
     meta: {
       hidden: true
-    }
+    },
   },
   {
     path: "/404",
@@ -37,7 +37,7 @@ export const constantRoutes: RouteRecordRaw[] = [
     component: () => import("@/views/login/index.vue"),
     meta: {
       hidden: true
-    }
+    },
   },
   {
     path: "/",
@@ -52,8 +52,8 @@ export const constantRoutes: RouteRecordRaw[] = [
           title: "首页",
           svgIcon: "dashboard",
           affix: true
-        }
-      }
+        },
+      },
     ]
   },
   {
@@ -68,8 +68,8 @@ export const constantRoutes: RouteRecordRaw[] = [
         meta: {
           title: "unocss",
           svgIcon: "unocss"
-        }
-      }
+        },
+      },
     ]
   },
   {
@@ -83,8 +83,8 @@ export const constantRoutes: RouteRecordRaw[] = [
         meta: {
           title: "外链",
           svgIcon: "link"
-        }
-      }
+        },
+      },
     ]
   },
   {
@@ -104,7 +104,7 @@ export const constantRoutes: RouteRecordRaw[] = [
         meta: {
           title: "Element Plus",
           keepAlive: true
-        }
+        },
       },
       {
         path: "vxe-table",
@@ -113,8 +113,8 @@ export const constantRoutes: RouteRecordRaw[] = [
         meta: {
           title: "Vxe Table",
           keepAlive: true
-        }
-      }
+        },
+      },
     ]
   },
   {
@@ -142,7 +142,7 @@ export const constantRoutes: RouteRecordRaw[] = [
             name: "Menu1-1",
             meta: {
               title: "menu1-1"
-            }
+            },
           },
           {
             path: "menu1-2",
@@ -159,7 +159,7 @@ export const constantRoutes: RouteRecordRaw[] = [
                 name: "Menu1-2-1",
                 meta: {
                   title: "menu1-2-1"
-                }
+                },
               },
               {
                 path: "menu1-2-2",
@@ -167,8 +167,8 @@ export const constantRoutes: RouteRecordRaw[] = [
                 name: "Menu1-2-2",
                 meta: {
                   title: "menu1-2-2"
-                }
-              }
+                },
+              },
             ]
           },
           {
@@ -177,8 +177,8 @@ export const constantRoutes: RouteRecordRaw[] = [
             name: "Menu1-3",
             meta: {
               title: "menu1-3"
-            }
-          }
+            },
+          },
         ]
       },
       {
@@ -187,8 +187,8 @@ export const constantRoutes: RouteRecordRaw[] = [
         name: "Menu2",
         meta: {
           title: "menu2"
-        }
-      }
+        },
+      },
     ]
   },
   {
@@ -208,7 +208,7 @@ export const constantRoutes: RouteRecordRaw[] = [
         name: "UseFetchSelect",
         meta: {
           title: "useFetchSelect"
-        }
+        },
       },
       {
         path: "use-fullscreen-loading",
@@ -216,10 +216,10 @@ export const constantRoutes: RouteRecordRaw[] = [
         name: "UseFullscreenLoading",
         meta: {
           title: "useFullscreenLoading"
-        }
-      }
+        },
+      },
     ]
-  }
+  },
 ]
 
 /**
@@ -255,8 +255,8 @@ export const asyncRoutes: RouteRecordRaw[] = [
         name: "DirectivePermission",
         meta: {
           title: "指令权限" // 如果未设置角色，则表示：该页面不需要权限，但会继承根路由的角色
-        }
-      }
+        },
+      },
     ]
   },
   {
@@ -265,8 +265,8 @@ export const asyncRoutes: RouteRecordRaw[] = [
     name: "ErrorPage",
     meta: {
       hidden: true
-    }
-  }
+    },
+  },
 ]
 
 const router = createRouter({
@@ -275,7 +275,7 @@ const router = createRouter({
       ? createWebHashHistory(import.meta.env.VITE_PUBLIC_PATH)
       : createWebHistory(import.meta.env.VITE_PUBLIC_PATH),
   routes: constantRoutes
-})
+},)
 
 /** 重置路由 */
 export function resetRouter() {

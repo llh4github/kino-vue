@@ -21,8 +21,8 @@ const props = defineProps({
   basePath: {
     type: String,
     default: ""
-  }
-})
+  },
+},)
 
 const alwaysShowRootMenu = computed(() => {
   return props.item.meta && props.item.meta.alwaysShow

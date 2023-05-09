@@ -5,8 +5,8 @@ const props = defineProps({
   isActive: {
     type: Boolean,
     default: false
-  }
-})
+  },
+},)
 
 const emit = defineEmits<{
   (e: "toggle-click"): void

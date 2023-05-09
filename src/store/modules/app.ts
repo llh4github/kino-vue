@@ -16,7 +16,7 @@ export const useAppStore = defineStore("app", () => {
   const sidebar: ISidebar = reactive({
     opened: getSidebarStatus() !== "closed",
     withoutAnimation: false
-  })
+  },)
   const device = ref<DeviceType>(DeviceType.Desktop)
 
   const toggleSidebar = (withoutAnimation: boolean) => {
