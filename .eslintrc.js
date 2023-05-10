@@ -35,8 +35,9 @@ module.exports = {
     },
   },
   rules: {
-    // "comma-dangle": ["warn", "always-multiline"],
-    "comma-dangle": ["warn", "only-multiline"],
+    // "comma-dangle": "off",
+    "comma-dangle": ["warn", "always-multiline"],
+    // "comma-dangle": ["warn", "only-multiline"],
     // TS
     "@typescript-eslint/no-explicit-any": "off",
     "no-debugger": "off",
@@ -45,6 +46,7 @@ module.exports = {
     "@typescript-eslint/ban-ts-comment": "off",
     "@typescript-eslint/no-empty-function": "off",
     "@typescript-eslint/no-non-null-assertion": "off",
+    // "@typescript-eslint/comma-dangle": ["warn", "always-multiline"],
     "@typescript-eslint/no-unused-vars": [
       "warn",
       {
