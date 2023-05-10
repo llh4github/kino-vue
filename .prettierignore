@@ -1,5 +1,6 @@
 # Prettier 会忽略的文件
 
+src
 .DS_Store
 node_modules
 dist
