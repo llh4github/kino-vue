@@ -32,7 +32,7 @@ function createService() {
             return apiData
           default:
             // 不是正确的 Code
-            ElMessage.error(apiData.message || "Error")
+            ElMessage.error(apiData.msg || "Error")
             return Promise.reject(new Error("Error"))
         }
       }
@@ -40,6 +40,7 @@ function createService() {
     (error) => {
       // Status 是 HTTP 状态码
       const status = get(error, "response.status")
+      const url = get(error, "config.url")
       switch (status) {
         case 400:
           error.message = "请求错误"
@@ -53,7 +54,7 @@ function createService() {
           error.message = "拒绝访问"
           break
         case 404:
-          error.message = "请求地址出错"
+          error.message = `未找到请求路径：/${url}`
           break
         case 408:
           error.message = "请求超时"
