@@ -4,7 +4,7 @@ import { getSidebarStatus, setSidebarStatus } from "@/utils/cache/localStorage"
 
 export enum DeviceType {
   Mobile,
-  Desktop
+  Desktop,
 }
 
 interface ISidebar {
@@ -15,8 +15,8 @@ interface ISidebar {
 export const useAppStore = defineStore("app", () => {
   const sidebar: ISidebar = reactive({
     opened: getSidebarStatus() !== "closed",
-    withoutAnimation: false
-  },)
+    withoutAnimation: false,
+  })
   const device = ref<DeviceType>(DeviceType.Desktop)
 
   const toggleSidebar = (withoutAnimation: boolean) => {

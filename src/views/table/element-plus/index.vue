@@ -7,8 +7,8 @@ import { Search, Refresh, CirclePlus, Delete, Download, RefreshRight } from "@el
 import { usePagination } from "@/hooks/usePagination"
 
 defineOptions({
-  name: "ElementPlus"
-},)
+  name: "ElementPlus",
+})
 
 const loading = ref<boolean>(false)
 const { paginationData, handleCurrentChange, handleSizeChange } = usePagination()
@@ -18,11 +18,11 @@ const dialogVisible = ref<boolean>(false)
 const formRef = ref<FormInstance | null>(null)
 const formData = reactive({
   username: "",
-  password: ""
-},)
+  password: "",
+})
 const formRules: FormRules = reactive({
-  username: [{ required: true, trigger: "blur", message: "请输入用户名" },],
-  password: [{ required: true, trigger: "blur", message: "请输入密码" },]
+  username: [{ required: true, trigger: "blur", message: "请输入用户名" }],
+  password: [{ required: true, trigger: "blur", message: "请输入密码" }],
 })
 const handleCreate = () => {
   formRef.value?.validate((valid: boolean) => {
@@ -30,8 +30,8 @@ const handleCreate = () => {
       if (currentUpdateId.value === undefined) {
         createTableDataApi({
           username: formData.username,
-          password: formData.password
-        },).then(() => {
+          password: formData.password,
+        }).then(() => {
           ElMessage.success("新增成功")
           dialogVisible.value = false
           getTableData()
@@ -39,8 +39,8 @@ const handleCreate = () => {
       } else {
         updateTableDataApi({
           id: currentUpdateId.value,
-          username: formData.username
-        },).then(() => {
+          username: formData.username,
+        }).then(() => {
           ElMessage.success("修改成功")
           dialogVisible.value = false
           getTableData()
@@ -63,8 +63,8 @@ const handleDelete = (row: IGetTableData) => {
   ElMessageBox.confirm(`正在删除用户：${row.username}，确认删除？`, "提示", {
     confirmButtonText: "确定",
     cancelButtonText: "取消",
-    type: "warning"
-  },).then(() => {
+    type: "warning",
+  }).then(() => {
     deleteTableDataApi(row.id).then(() => {
       ElMessage.success("删除成功")
       getTableData()
@@ -87,16 +87,16 @@ const tableData = ref<IGetTableData[]>([])
 const searchFormRef = ref<FormInstance | null>(null)
 const searchData = reactive({
   username: "",
-  phone: ""
-},)
+  phone: "",
+})
 const getTableData = () => {
   loading.value = true
   getTableDataApi({
     currentPage: paginationData.currentPage,
     size: paginationData.pageSize,
     username: searchData.username || undefined,
-    phone: searchData.phone || undefined
-  },)
+    phone: searchData.phone || undefined,
+  })
     .then((res) => {
       paginationData.total = res.data.total
       tableData.value = res.data.list
@@ -127,7 +127,7 @@ const handleRefresh = () => {
 //#endregion
 
 /** 监听分页参数的变化 */
-watch([() => paginationData.currentPage, () => paginationData.pageSize], getTableData, { immediate: true },)
+watch([() => paginationData.currentPage, () => paginationData.pageSize], getTableData, { immediate: true })
 </script>
 
 <template>

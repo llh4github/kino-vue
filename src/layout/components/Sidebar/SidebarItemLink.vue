@@ -4,9 +4,9 @@ import { isExternal } from "@/utils/validate"
 const props = defineProps({
   to: {
     type: String,
-    required: true
+    required: true,
   },
-},)
+})
 </script>
 
 <template>

@@ -4,7 +4,7 @@ import SwitchRoles from "./components/SwitchRoles.vue"
 
 const router = useRouter()
 const handleRolesChange = () => {
-  router.push({ path: "/403" },)
+  router.push({ path: "/403" })
 }
 </script>
 

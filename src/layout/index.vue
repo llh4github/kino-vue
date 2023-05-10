@@ -18,7 +18,7 @@ const classObj = computed(() => {
     withoutAnimation: appStore.sidebar.withoutAnimation,
     mobile: appStore.device === DeviceType.Mobile,
     showGreyMode: showGreyMode.value,
-    showColorWeakness: showColorWeakness.value
+    showColorWeakness: showColorWeakness.value,
   }
 })
 

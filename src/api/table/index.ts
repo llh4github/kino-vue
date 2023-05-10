@@ -6,16 +6,16 @@ export function createTableDataApi(data: Table.ICreateTableRequestData) {
   return request({
     url: "table",
     method: "post",
-    data
-  },)
+    data,
+  })
 }
 
 /** 删 */
 export function deleteTableDataApi(id: string) {
   return request({
     url: `table/${id}`,
-    method: "delete"
-  },)
+    method: "delete",
+  })
 }
 
 /** 改 */
@@ -23,8 +23,8 @@ export function updateTableDataApi(data: Table.IUpdateTableRequestData) {
   return request({
     url: "table",
     method: "put",
-    data
-  },)
+    data,
+  })
 }
 
 /** 查 */
@@ -32,6 +32,6 @@ export function getTableDataApi(params: Table.IGetTableRequestData) {
   return request<Table.GetTableResponseData>({
     url: "table",
     method: "get",
-    params
-  },)
+    params,
+  })
 }

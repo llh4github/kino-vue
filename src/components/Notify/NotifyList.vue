@@ -5,9 +5,9 @@ import { type IListItem } from "./data"
 const props = defineProps({
   list: {
     type: Object as PropType<IListItem[]>,
-    required: true
+    required: true,
   },
-},)
+})
 </script>
 
 <template>

@@ -22,6 +22,6 @@ export const useSettingsStore = defineStore("settings", () => {
     showThemeSwitch,
     showScreenfull,
     showGreyMode,
-    showColorWeakness
+    showColorWeakness,
   }
 })

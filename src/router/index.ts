@@ -8,12 +8,12 @@ export const constantRoutes: RouteRecordRaw[] = [
     path: "/redirect",
     component: Layout,
     meta: {
-      hidden: true
+      hidden: true,
     },
     children: [
       {
         path: "/redirect/:path(.*)",
-        component: () => import("@/views/redirect/index.vue")
+        component: () => import("@/views/redirect/index.vue"),
       },
     ],
   },
@@ -21,22 +21,22 @@ export const constantRoutes: RouteRecordRaw[] = [
     path: "/403",
     component: () => import("@/views/error-page/403.vue"),
     meta: {
-      hidden: true
+      hidden: true,
     },
   },
   {
     path: "/404",
     component: () => import("@/views/error-page/404.vue"),
     meta: {
-      hidden: true
+      hidden: true,
     },
-    alias: "/:pathMatch(.*)*"
+    alias: "/:pathMatch(.*)*",
   },
   {
     path: "/login",
     component: () => import("@/views/login/index.vue"),
     meta: {
-      hidden: true
+      hidden: true,
     },
   },
   {
@@ -51,10 +51,10 @@ export const constantRoutes: RouteRecordRaw[] = [
         meta: {
           title: "首页",
           svgIcon: "dashboard",
-          affix: true
+          affix: true,
         },
       },
-    ]
+    ],
   },
   {
     path: "/unocss",
@@ -67,10 +67,10 @@ export const constantRoutes: RouteRecordRaw[] = [
         name: "UnoCSS",
         meta: {
           title: "unocss",
-          svgIcon: "unocss"
+          svgIcon: "unocss",
         },
       },
-    ]
+    ],
   },
   {
     path: "/link",
@@ -82,10 +82,10 @@ export const constantRoutes: RouteRecordRaw[] = [
         name: "Link",
         meta: {
           title: "外链",
-          svgIcon: "link"
+          svgIcon: "link",
         },
       },
-    ]
+    ],
   },
   {
     path: "/table",
@@ -94,7 +94,7 @@ export const constantRoutes: RouteRecordRaw[] = [
     name: "Table",
     meta: {
       title: "表格",
-      elIcon: "Grid"
+      elIcon: "Grid",
     },
     children: [
       {
@@ -103,7 +103,7 @@ export const constantRoutes: RouteRecordRaw[] = [
         name: "ElementPlus",
         meta: {
           title: "Element Plus",
-          keepAlive: true
+          keepAlive: true,
         },
       },
       {
@@ -112,10 +112,10 @@ export const constantRoutes: RouteRecordRaw[] = [
         name: "VxeTable",
         meta: {
           title: "Vxe Table",
-          keepAlive: true
+          keepAlive: true,
         },
       },
-    ]
+    ],
   },
   {
     path: "/menu",
@@ -124,7 +124,7 @@ export const constantRoutes: RouteRecordRaw[] = [
     name: "Menu",
     meta: {
       title: "多级菜单",
-      svgIcon: "menu"
+      svgIcon: "menu",
     },
     children: [
       {
@@ -133,7 +133,7 @@ export const constantRoutes: RouteRecordRaw[] = [
         redirect: "/menu/menu1/menu1-1",
         name: "Menu1",
         meta: {
-          title: "menu1"
+          title: "menu1",
         },
         children: [
           {
@@ -141,7 +141,7 @@ export const constantRoutes: RouteRecordRaw[] = [
             component: () => import("@/views/menu/menu1/menu1-1/index.vue"),
             name: "Menu1-1",
             meta: {
-              title: "menu1-1"
+              title: "menu1-1",
             },
           },
           {
@@ -150,7 +150,7 @@ export const constantRoutes: RouteRecordRaw[] = [
             redirect: "/menu/menu1/menu1-2/menu1-2-1",
             name: "Menu1-2",
             meta: {
-              title: "menu1-2"
+              title: "menu1-2",
             },
             children: [
               {
@@ -158,7 +158,7 @@ export const constantRoutes: RouteRecordRaw[] = [
                 component: () => import("@/views/menu/menu1/menu1-2/menu1-2-1/index.vue"),
                 name: "Menu1-2-1",
                 meta: {
-                  title: "menu1-2-1"
+                  title: "menu1-2-1",
                 },
               },
               {
@@ -166,30 +166,30 @@ export const constantRoutes: RouteRecordRaw[] = [
                 component: () => import("@/views/menu/menu1/menu1-2/menu1-2-2/index.vue"),
                 name: "Menu1-2-2",
                 meta: {
-                  title: "menu1-2-2"
+                  title: "menu1-2-2",
                 },
               },
-            ]
+            ],
           },
           {
             path: "menu1-3",
             component: () => import("@/views/menu/menu1/menu1-3/index.vue"),
             name: "Menu1-3",
             meta: {
-              title: "menu1-3"
+              title: "menu1-3",
             },
           },
-        ]
+        ],
       },
       {
         path: "menu2",
         component: () => import("@/views/menu/menu2/index.vue"),
         name: "Menu2",
         meta: {
-          title: "menu2"
+          title: "menu2",
         },
       },
-    ]
+    ],
   },
   {
     path: "/hook-demo",
@@ -199,7 +199,7 @@ export const constantRoutes: RouteRecordRaw[] = [
     meta: {
       title: "hook 示例",
       elIcon: "Menu",
-      alwaysShow: true
+      alwaysShow: true,
     },
     children: [
       {
@@ -207,7 +207,7 @@ export const constantRoutes: RouteRecordRaw[] = [
         component: () => import("@/views/hook-demo/use-fetch-select.vue"),
         name: "UseFetchSelect",
         meta: {
-          title: "useFetchSelect"
+          title: "useFetchSelect",
         },
       },
       {
@@ -215,10 +215,10 @@ export const constantRoutes: RouteRecordRaw[] = [
         component: () => import("@/views/hook-demo/use-fullscreen-loading.vue"),
         name: "UseFullscreenLoading",
         meta: {
-          title: "useFullscreenLoading"
+          title: "useFullscreenLoading",
         },
       },
-    ]
+    ],
   },
 ]
 
@@ -237,7 +237,7 @@ export const asyncRoutes: RouteRecordRaw[] = [
       title: "权限管理",
       svgIcon: "lock",
       roles: ["admin", "editor"], // 可以在根路由中设置角色
-      alwaysShow: true // 将始终显示根菜单
+      alwaysShow: true, // 将始终显示根菜单
     },
     children: [
       {
@@ -246,25 +246,25 @@ export const asyncRoutes: RouteRecordRaw[] = [
         name: "PagePermission",
         meta: {
           title: "页面权限",
-          roles: ["admin"] // 或者在子导航中设置角色
-        }
+          roles: ["admin"], // 或者在子导航中设置角色
+        },
       },
       {
         path: "directive",
         component: () => import("@/views/permission/directive.vue"),
         name: "DirectivePermission",
         meta: {
-          title: "指令权限" // 如果未设置角色，则表示：该页面不需要权限，但会继承根路由的角色
+          title: "指令权限", // 如果未设置角色，则表示：该页面不需要权限，但会继承根路由的角色
         },
       },
-    ]
+    ],
   },
   {
     path: "/:pathMatch(.*)*", // Must put the 'ErrorPage' route at the end, 必须将 'ErrorPage' 路由放在最后
     redirect: "/404",
     name: "ErrorPage",
     meta: {
-      hidden: true
+      hidden: true,
     },
   },
 ]
@@ -274,8 +274,8 @@ const router = createRouter({
     import.meta.env.VITE_ROUTER_HISTORY === "hash"
       ? createWebHashHistory(import.meta.env.VITE_PUBLIC_PATH)
       : createWebHistory(import.meta.env.VITE_PUBLIC_PATH),
-  routes: constantRoutes
-},)
+  routes: constantRoutes,
+})
 
 /** 重置路由 */
 export function resetRouter() {

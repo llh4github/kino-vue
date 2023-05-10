@@ -16,15 +16,15 @@ interface IThemeList {
 const themeList: IThemeList[] = [
   {
     title: "默认",
-    name: DEFAULT_THEME_NAME
+    name: DEFAULT_THEME_NAME,
   },
   {
     title: "黑暗",
-    name: "dark"
+    name: "dark",
   },
   {
     title: "深蓝",
-    name: "dark-blue"
+    name: "dark-blue",
   },
 ]
 

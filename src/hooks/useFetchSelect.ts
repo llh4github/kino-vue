@@ -48,6 +48,6 @@ export function useFetchSelect(props: IFetchSelectProps) {
   return {
     loading,
     options,
-    value
+    value,
   }
 }

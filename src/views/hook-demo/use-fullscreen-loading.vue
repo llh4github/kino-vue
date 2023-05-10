@@ -18,7 +18,7 @@ const options = {
   text: "即将发生错误...",
   background: "#F56C6C20",
   svg,
-  svgViewBox: "-10, -10, 50, 50"
+  svgViewBox: "-10, -10, 50, 50",
 }
 
 const querySuccess = async () => {

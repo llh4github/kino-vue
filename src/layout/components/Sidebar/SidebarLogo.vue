@@ -2,9 +2,9 @@
 const props = defineProps({
   collapse: {
     type: Boolean,
-    default: true
+    default: true,
   },
-},)
+})
 </script>
 
 <template>

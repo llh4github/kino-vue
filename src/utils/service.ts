@@ -12,7 +12,7 @@ function createService() {
   service.interceptors.request.use(
     (config) => config,
     // 发送失败
-    (error) => Promise.reject(error)
+    (error) => Promise.reject(error),
   )
   // 响应拦截（可根据具体业务作出相应的调整）
   service.interceptors.response.use(
@@ -27,8 +27,8 @@ function createService() {
         return Promise.reject(new Error("非本系统的接口"))
       } else {
         switch (code) {
-          case 0:
-            // code === 0 代表没有错误
+          case 1:
+            // 代表没有错误
             return apiData
           default:
             // 不是正确的 Code
@@ -81,7 +81,7 @@ function createService() {
       }
       ElMessage.error(error.message)
       return Promise.reject(error)
-    }
+    },
   )
   return service
 }
@@ -93,11 +93,11 @@ function createRequestFunction(service: AxiosInstance) {
       headers: {
         // 携带 Token
         Authorization: "Bearer " + getToken(),
-        "Content-Type": get(config, "headers.Content-Type", "application/json")
+        "Content-Type": get(config, "headers.Content-Type", "application/json"),
       },
       timeout: 5000,
       baseURL: import.meta.env.VITE_BASE_API,
-      data: {}
+      data: {},
     }
     return service(Object.assign(configDefault, config))
   }

@@ -89,6 +89,6 @@ export const useTagsViewStore = defineStore("tags-view", () => {
     delOthersVisitedViews,
     delOthersCachedViews,
     delAllVisitedViews,
-    delAllCachedViews
+    delAllCachedViews,
   }
 })

@@ -7,19 +7,19 @@ const props = defineProps({
   /** 全屏的元素，默认是 html */
   element: {
     type: String,
-    default: "html"
+    default: "html",
   },
   /** 打开全屏提示语 */
   openTips: {
     type: String,
-    default: "全屏"
+    default: "全屏",
   },
   /** 关闭全屏提示语 */
   exitTips: {
     type: String,
-    default: "退出全屏"
+    default: "退出全屏",
   },
-},)
+})
 
 const tips = ref<string>(props.openTips)
 const isFullscreen = ref<boolean>(false)

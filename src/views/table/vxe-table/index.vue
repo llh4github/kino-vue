@@ -13,12 +13,12 @@ import {
   type VxeFormInstance,
   type VxeFormProps,
   type VxeGridPropTypes,
-  type VxeFormDefines
+  type VxeFormDefines,
 } from "vxe-table"
 
 defineOptions({
-  name: "VxeTable"
-},)
+  name: "VxeTable",
+})
 
 //#region vxe-grid
 interface IRowMeta {
@@ -38,7 +38,7 @@ const xGridOpt: VxeGridProps = reactive({
   autoResize: true,
   /** 分页配置项 */
   pagerConfig: {
-    align: "right"
+    align: "right",
   },
   /** 表单配置项 */
   formConfig: {
@@ -67,9 +67,9 @@ const xGridOpt: VxeGridProps = reactive({
             {
               props: { type: "reset", content: "重置" },
             },
-          ]
+          ],
         },
-      }
+      },
     ],
   },
   /** 工具栏配置 */
@@ -81,40 +81,40 @@ const xGridOpt: VxeGridProps = reactive({
   /** 自定义列配置项 */
   customConfig: {
     /** 是否允许列选中  */
-    checkMethod: ({ column }) => !["username"].includes(column.field)
+    checkMethod: ({ column }) => !["username"].includes(column.field),
   },
   /** 列配置 */
   columns: [
     {
       type: "checkbox",
-      width: "50px"
+      width: "50px",
     },
     {
       field: "username",
-      title: "用户名"
+      title: "用户名",
     },
     {
       field: "roles",
       title: "角色",
       /** 自定义列与 type: "html" 的列一起使用，会产生错误，所以采用 TSX 实现 */
-      slots: RoleColumnSolts
+      slots: RoleColumnSolts,
     },
     {
       field: "phone",
-      title: "手机号"
+      title: "手机号",
     },
     {
       field: "email",
-      title: "邮箱"
+      title: "邮箱",
     },
     {
       field: "status",
       title: "状态",
-      slots: StatusColumnSolts
+      slots: StatusColumnSolts,
     },
     {
       field: "createTime",
-      title: "创建时间"
+      title: "创建时间",
     },
     {
       title: "操作",
@@ -133,7 +133,7 @@ const xGridOpt: VxeGridProps = reactive({
     /** 是否自动加载，默认为 true */
     // autoLoad: false,
     props: {
-      total: "total"
+      total: "total",
     },
     ajax: {
       query: ({ page, form }: VxeGridPropTypes.ProxyAjaxQueryParams) => {
@@ -156,7 +156,7 @@ const xGridOpt: VxeGridProps = reactive({
               }
             }
             xGridOpt.loading = false
-            resolve({ total, result },)
+            resolve({ total, result })
           }
 
           /** 接口需要的参数 */
@@ -164,12 +164,12 @@ const xGridOpt: VxeGridProps = reactive({
             username: form.username || undefined,
             phone: form.phone || undefined,
             size: page.pageSize,
-            currentPage: page.currentPage
+            currentPage: page.currentPage,
           }
           /** 调用接口 */
           getTableDataApi(params).then(callback).catch(callback)
         })
-      }
+      },
     },
   },
 })
@@ -185,8 +185,8 @@ const xModalOpt: VxeModalProps = reactive({
   beforeHideMethod: () => {
     xFormDom.value?.clearValidate()
     return Promise.resolve()
-  }
-},)
+  },
+})
 //#endregion
 
 //#region vxe-form
@@ -200,64 +200,64 @@ const xFormOpt = reactive<VxeFormProps>({
   /** 表单数据 */
   data: {
     username: "",
-    password: ""
+    password: "",
   },
   /** 项列表 */
   items: [
     {
       field: "username",
       title: "用户名",
-      itemRender: { name: "$input", props: { placeholder: "请输入" } }
+      itemRender: { name: "$input", props: { placeholder: "请输入" } },
     },
     {
       field: "password",
       title: "密码",
-      itemRender: { name: "$input", props: { placeholder: "请输入" } }
+      itemRender: { name: "$input", props: { placeholder: "请输入" } },
     },
     {
       align: "right",
       itemRender: {
         name: "$buttons",
         children: [
-          { props: { content: "取消" }, events: { click: () => xModalDom.value?.close() }, },
+          { props: { content: "取消" }, events: { click: () => xModalDom.value?.close() } },
           {
             props: { type: "submit", content: "确定", status: "primary" },
             events: { click: () => crudStore.onSubmitForm() },
           },
-        ]
+        ],
       },
-    }
+    },
   ],
   /** 校验规则 */
   rules: {
     username: [
       {
         required: true,
-        validator: ({ itemValue },) => {
+        validator: ({ itemValue }) => {
           if (!itemValue) {
             return new Error("请输入")
           }
           if (!itemValue.trim()) {
             return new Error("空格无效")
           }
-        }
+        },
       },
     ],
     password: [
       {
         required: true,
-        validator: ({ itemValue },) => {
+        validator: ({ itemValue }) => {
           if (!itemValue) {
             return new Error("请输入")
           }
           if (!itemValue.trim()) {
             return new Error("空格无效")
           }
-        }
+        },
       },
     ],
-  }
-},)
+  },
+})
 //#endregion
 
 //#region CRUD
@@ -334,7 +334,7 @@ const crudStore = reactive({
       closeOnPressEscape: true,
       cancelButtonText: "取消",
       confirmButtonText: "确定",
-      dangerouslyUseHTMLString: true
+      dangerouslyUseHTMLString: true,
     }
     ElMessageBox.confirm(tip, "提示", config)
       .then(() => {
@@ -357,8 +357,8 @@ const crudStore = reactive({
     }
   },
   /** 更多自定义方法 */
-  moreFunc: () => {}
-},)
+  moreFunc: () => {},
+})
 //#endregion
 </script>
 

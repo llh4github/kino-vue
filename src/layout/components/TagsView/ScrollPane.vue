@@ -9,9 +9,9 @@ import Screenfull from "@/components/Screenfull/index.vue"
 const props = defineProps({
   tagRefs: {
     type: Object as PropType<InstanceType<typeof RouterLink>[]>,
-    required: true
+    required: true,
   },
-},)
+})
 
 const route = useRoute()
 const settingsStore = useSettingsStore()
@@ -98,8 +98,8 @@ watch(
     nextTick(moveTo)
   },
   {
-    deep: true
-  },
+    deep: true,
+  }
 )
 
 const showScreenfull = computed(() => {
