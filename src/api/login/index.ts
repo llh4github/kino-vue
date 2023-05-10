@@ -11,8 +11,8 @@ export function getLoginCodeApi() {
 
 /** 登录并返回 Token */
 export function loginApi(data: Login.ILoginRequestData) {
-  return request<Login.LoginResponseData>({
-    url: "users/login",
+  return request<Login.LoginTokenData>({
+    url: "login",
     method: "post",
     data,
   })

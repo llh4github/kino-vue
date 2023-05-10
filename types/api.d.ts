@@ -4,3 +4,10 @@ interface IApiResponseData<T> {
   data: T
   message: string
 }
+
+/** Json格式响应统一包装类 */
+interface JsonReposeData<T> {
+  code: number
+  data?: T
+  msg: string
+}

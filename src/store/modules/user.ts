@@ -5,7 +5,7 @@ import { usePermissionStore } from "./permission"
 import { useTagsViewStore } from "./tags-view"
 import { getToken, removeToken, setToken } from "@/utils/cache/cookies"
 import router, { resetRouter } from "@/router"
-import { loginApi, getUserInfoApi } from "@/api/login"
+import { getUserInfoApi, loginApi } from "@/api/login"
 import { type ILoginRequestData } from "@/api/login/types/login"
 import { type RouteRecordRaw } from "vue-router"
 import asyncRouteSettings from "@/config/async-route"
@@ -28,11 +28,11 @@ export const useUserStore = defineStore("user", () => {
       loginApi({
         username: loginData.username,
         password: loginData.password,
-        code: loginData.code
-      },)
+        code: loginData.code,
+      })
         .then((res) => {
-          setToken(res.data.token)
-          token.value = res.data.token
+          setToken(res.data.accessToken)
+          token.value = res.data.accessToken
           resolve(true)
         })
         .catch((error) => {
