@@ -48,7 +48,12 @@ const logout = () => {
       <Notify v-if="showNotify" class="right-menu-item" />
       <el-dropdown class="right-menu-item">
         <div class="right-menu-avatar">
-          <el-avatar :icon="UserFilled" :size="30" />
+          <template v-if="userStore.avatar">
+            <el-avatar :src="userStore.avatar" :size="30" />
+          </template>
+          <template v-else>
+            <el-avatar :icon="UserFilled" :size="30" />
+          </template>
           <span>{{ userStore.username }}</span>
         </div>
         <template #dropdown>
@@ -77,6 +82,7 @@ const logout = () => {
   height: var(--v3-navigationbar-height);
   overflow: hidden;
   background: #fff;
+
   .hamburger {
     display: flex;
     align-items: center;
@@ -85,6 +91,7 @@ const logout = () => {
     padding: 0 15px;
     cursor: pointer;
   }
+
   .breadcrumb {
     float: left;
     // 参考 Bootstrap 的响应式设计 WIDTH = 576
@@ -92,6 +99,7 @@ const logout = () => {
       display: none;
     }
   }
+
   .right-menu {
     float: right;
     margin-right: 10px;
@@ -99,15 +107,19 @@ const logout = () => {
     display: flex;
     align-items: center;
     color: #606266;
+
     .right-menu-item {
       padding: 0 10px;
       cursor: pointer;
+
       .right-menu-avatar {
         display: flex;
         align-items: center;
+
         .el-avatar {
           margin-right: 10px;
         }
+
         span {
           font-size: 16px;
         }

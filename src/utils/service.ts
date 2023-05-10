@@ -93,7 +93,7 @@ function createRequestFunction(service: AxiosInstance) {
     const configDefault = {
       headers: {
         // 携带 Token
-        Authorization: "Bearer " + getToken(),
+        Authorization: getToken(),
         "Content-Type": get(config, "headers.Content-Type", "application/json"),
       },
       timeout: 5000,

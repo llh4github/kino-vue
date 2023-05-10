@@ -5,15 +5,17 @@ import { usePermissionStore } from "./permission"
 import { useTagsViewStore } from "./tags-view"
 import { getToken, removeToken, setToken } from "@/utils/cache/cookies"
 import router, { resetRouter } from "@/router"
-import { getUserInfoApi, loginApi } from "@/api/login"
+import { loginApi } from "@/api/login"
 import { type ILoginRequestData } from "@/api/login/types/login"
 import { type RouteRecordRaw } from "vue-router"
 import asyncRouteSettings from "@/config/async-route"
+import { userInfoForMe } from "@/api/auth/user";
 
 export const useUserStore = defineStore("user", () => {
   const token = ref<string>(getToken() || "")
   const roles = ref<string[]>([])
   const username = ref<string>("")
+  const avatar = ref<string | undefined>(undefined)
 
   const permissionStore = usePermissionStore()
   const tagsViewStore = useTagsViewStore()
@@ -43,12 +45,14 @@ export const useUserStore = defineStore("user", () => {
   /** 获取用户详情 */
   const getInfo = () => {
     return new Promise((resolve, reject) => {
-      getUserInfoApi()
+      userInfoForMe()
+        // getUserInfoApi()
         .then((res) => {
           const data = res.data
-          username.value = data.username
+          username.value = data?.username ?? "未登录用户"
+          avatar.value = data?.avatar
           // 验证返回的 roles 是否是一个非空数组
-          if (data.roles && data.roles.length > 0) {
+          if (data?.roles && data.roles.length > 0) {
             roles.value = data.roles
           } else {
             // 塞入一个没有任何作用的默认角色，不然路由守卫逻辑会无限循环
@@ -94,7 +98,10 @@ export const useUserStore = defineStore("user", () => {
     tagsViewStore.delAllCachedViews()
   }
 
-  return { token, roles, username, setRoles, login, getInfo, changeRoles, logout, resetToken }
+  return {
+    token, roles, username, avatar,
+    setRoles, login, getInfo, changeRoles, logout, resetToken,
+  }
 })
 
 /** 在 setup 外使用 */
