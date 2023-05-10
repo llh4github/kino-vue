@@ -144,7 +144,7 @@ watch(
   },
   {
     deep: true,
-  }
+  },
 )
 
 watch(visible, (value) => {

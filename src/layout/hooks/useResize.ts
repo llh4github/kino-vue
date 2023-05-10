@@ -31,7 +31,7 @@ export default () => {
       if (appStore.device === DeviceType.Mobile && appStore.sidebar.opened) {
         appStore.closeSidebar(false)
       }
-    }
+    },
   )
 
   onBeforeMount(() => {

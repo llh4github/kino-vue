@@ -99,7 +99,7 @@ watch(
   },
   {
     deep: true,
-  }
+  },
 )
 
 const showScreenfull = computed(() => {

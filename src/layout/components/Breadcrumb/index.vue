@@ -36,7 +36,7 @@ watch(
       return
     }
     getBreadcrumb()
-  }
+  },
 )
 
 getBreadcrumb()
