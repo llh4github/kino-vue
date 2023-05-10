@@ -9,6 +9,16 @@ export function getLoginCodeApi() {
   })
 }
 
+/**
+ * 登出操作
+ */
+export const logoutRequest = () => {
+  return request({
+    url: "logout",
+    method: "post",
+  })
+}
+
 /** 登录并返回 Token */
 export function loginApi(data: Login.ILoginRequestData) {
   return request<Login.LoginTokenData>({
