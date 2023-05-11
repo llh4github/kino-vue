@@ -108,3 +108,42 @@ function createRequestFunction(service: AxiosInstance) {
 export const service = createService()
 /** 用于网络请求的方法 */
 export const request = createRequestFunction(service)
+
+/**
+ * get请求
+ * @param url 请求路径
+ * @param params 请求参数
+ */
+export function getRequest<T>(url: string, params?: any) {
+  return request<JsonReposeData<T>>({
+    url,
+    method: "get",
+    params,
+  })
+}
+
+export function postRequest<T>(url: string, data?: any, params?: any) {
+  return request<JsonReposeData<T>>({
+    url,
+    method: "post",
+    params,
+    data,
+  })
+}
+
+export function deleteRequest<T>(url: string, data?: any, params?: any) {
+  return request<JsonReposeData<T>>({
+    url,
+    method: "delete",
+    params,
+    data,
+  })
+}
+export function putRequest<T>(url: string, data?: any, params?: any) {
+  return request<JsonReposeData<T>>({
+    url,
+    method: "put",
+    params,
+    data,
+  })
+}

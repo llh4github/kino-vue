@@ -1,4 +1,4 @@
-import { type RouteRecordRaw, createRouter, createWebHashHistory, createWebHistory } from "vue-router"
+import { createRouter, createWebHashHistory, createWebHistory, type RouteRecordRaw } from "vue-router"
 
 const Layout = () => import("@/layout/index.vue")
 
@@ -55,6 +55,22 @@ export const constantRoutes: RouteRecordRaw[] = [
         },
       },
     ],
+  }, {
+    path: "/auth",
+    component: Layout,
+    redirect: "/role",
+    children: [
+      {
+        path: "role",
+        component: () => import("@/views/auth/role/index.vue"),
+        name: "role-page",
+        meta: {
+          title: "角色管理",
+          svgIcon: "dashboard",
+          affix: true,
+        },
+      },
+    ],
   },
   {
     path: "/unocss",
@@ -78,7 +94,8 @@ export const constantRoutes: RouteRecordRaw[] = [
     children: [
       {
         path: "https://juejin.cn/post/7089377403717287972",
-        component: () => {},
+        component: () => {
+        },
         name: "Link",
         meta: {
           title: "外链",
