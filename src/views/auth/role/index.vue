@@ -1,32 +1,79 @@
 <script setup lang="ts">
 import { CirclePlus, Delete, Refresh, RefreshRight, Search } from "@element-plus/icons-vue"
 import { reactive, ref, watch } from "vue";
-import { createRole, deleteRole, pageApi, updateRole } from "@/api/auth/role"
+import { checkUniqueCode, createRole, deleteRole, pageApi, updateRole } from "@/api/auth/role"
 import { RoleInfo } from "@/api/auth/types";
 import { usePagination } from "@/hooks/usePagination";
 import { formatDateTime } from "@/utils";
-import { ElMessage, ElMessageBox, FormInstance } from "element-plus";
+import { ElMessage, ElMessageBox, FormInstance, FormRules } from "element-plus";
 
 
 defineOptions({
   name: "Role-Index-Page",
 })
-const dialogVisible = ref(false)
 const loading = ref<boolean>(false)
+//region 搜索栏逻辑
+const dialogVisible = ref(false)
 const searchData = reactive({
-  code: "",
-  name: "",
+  code: undefined,
+  name: undefined,
 })
+const searchFormRef = ref<FormInstance | null>(null)
+const handleSearch = () => {
+  if (paginationData.currentPage === 1) {
+    getTableData()
+  }
+  paginationData.currentPage = 1
+}
+//endregion
 
+//region 新增或更新逻辑
 const formRef = ref<FormInstance | null>(null)
 const formData = reactive<RoleInfo>({})
+const validateCode = (rule: any, value: any, callback: any) => {
+  if (value.length < 3) {
+    callback()
+  } else {
+    const id = formData.id
+    checkUniqueCode(value, id).then((res) => {
+      if (res.data) {
+        callback(new Error("数据已存在"))
+      } else {
+        callback()
+      }
+    })
+  }
+}
+
+const controlDialog = (row?: RoleInfo) => {
+  formData.name = row?.name
+  formData.id = row?.id
+  formData.code = row?.code
+  dialogVisible.value = true
+}
+const formRules: FormRules = reactive({
+  code: [
+    { required: true, trigger: "blur", message: "请输入角色代码" },
+    { min: 3, max: 10, message: "长度应该在 1 到 10 之间", trigger: "blur" },
+    { validator: validateCode, trigger: "blur" },
+  ],
+  name: [
+    { required: true, trigger: "blur", message: "请输入角色名" },
+    { min: 1, max: 10, message: "长度应该在 1 到 10 之间", trigger: "blur" },
+  ],
+})
+const cancelDialog = () => {
+  console.debug("取消")
+  formRef.value?.clearValidate()
+  dialogVisible.value = false
+}
 const handleCreateOrUpdate = () => {
   formRef.value?.validate((valid: boolean) => {
     if (valid) {
       let requestMethod = updateRole
       if (formData.id) {
         console.debug("有ID，调用更新接口")
-      }else{
+      } else {
         console.debug("没有ID，调用创建接口")
         requestMethod = createRole
       }
@@ -40,15 +87,19 @@ const handleCreateOrUpdate = () => {
         .catch(() => {
           console.error("创建或更新数据失败！")
         })
-    }else{
+    } else {
       return false
     }
   })
-  dialogVisible.value = false
 }
-const searchFormRef = ref<FormInstance | null>(null)
+//endregion
+
+//region 列表分页逻辑
 const { paginationData, handleCurrentChange, handleSizeChange } = usePagination()
 const tableData = ref<RoleInfo[]>([])
+const handleRefresh = () => {
+  getTableData()
+}
 const getTableData = () => {
   loading.value = true
   pageApi({
@@ -66,15 +117,18 @@ const getTableData = () => {
     loading.value = false
   })
 }
-
-const handleSearch = () => {
+const resetSearch = () => {
+  if (searchFormRef.value) {
+    searchFormRef.value?.resetFields();
+  } else {
+    console.debug(`搜索表单的引用为空！ ${searchFormRef.value}`)
+  }
   if (paginationData.currentPage === 1) {
     getTableData()
   }
   paginationData.currentPage = 1
 }
 
-const selectedIds = ref<number[]>([])
 const handleSelectChange = (selections: RoleInfo[]) => {
   const ids = selections.filter((ele) => ele.id).map((ele) => ele.id!)
   if (ids) {
@@ -82,7 +136,13 @@ const handleSelectChange = (selections: RoleInfo[]) => {
   }
   console.debug("已经选择的ID列表: ", ids)
 }
+
+watch([() => paginationData.currentPage, () => paginationData.pageSize], getTableData, { immediate: true })
+//endregion
+
+
 //#region 删
+const selectedIds = ref<number[]>([])
 const handleDeleteMuch = () => {
   const list = selectedIds.value
   if (list.length <= 0) {
@@ -100,12 +160,7 @@ const handleDeleteMuch = () => {
     })
   });
 }
-const controlDialog = (row?: RoleInfo) => {
-  formData.name = row?.name
-  formData.id = row?.id
-  formData.code = row?.code
-  dialogVisible.value = true
-}
+
 const handleDeleteOne = (row: any) => {
   ElMessageBox.confirm(`确认删除此条数据？`, "提示", {
     confirmButtonText: "确定",
@@ -121,21 +176,7 @@ const handleDeleteOne = (row: any) => {
   })
 }
 //#endregion
-const handleRefresh = () => {
-  getTableData()
-}
-const resetSearch = () => {
-  if (searchFormRef.value) {
-    searchFormRef.value?.resetFields();
-  } else {
-    console.debug(`搜索表单的引用为空！ ${searchFormRef.value}`)
-  }
-  if (paginationData.currentPage === 1) {
-    getTableData()
-  }
-  paginationData.currentPage = 1
-}
-watch([() => paginationData.currentPage, () => paginationData.pageSize], getTableData, { immediate: true })
+
 </script>
 
 <template>
@@ -210,7 +251,7 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
       width="30%"
       :title="formData.id != undefined ? '修改数据': '新增数据'"
       v-model="dialogVisible">
-      <el-form ref="formRef" :model="formData"
+      <el-form ref="formRef" :model="formData" :rules="formRules"
                label-width="100px" label-position="left"
       >
         <el-form-item prop="code" label="角色代码">
@@ -221,7 +262,7 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
         </el-form-item>
       </el-form>
       <template #footer>
-        <el-button @click="dialogVisible = false">取消</el-button>
+        <el-button @click="cancelDialog">取消</el-button>
         <el-button type="primary" @click="handleCreateOrUpdate">确认</el-button>
       </template>
     </el-dialog>
@@ -252,4 +293,5 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
   display: flex;
   justify-content: flex-end;
 }
+
 </style>
