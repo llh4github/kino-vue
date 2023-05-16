@@ -14,3 +14,6 @@ export const updateRole = (data: RoleInfo) => {
 export const createRole = (data: RoleInfo) => {
   return postRequest<boolean>("/auth/role", data)
 }
+export const checkUniqueCode = (code: string, notId?: number) => {
+  return getRequest<boolean>("/auth/role/exist", { code, notId })
+}
