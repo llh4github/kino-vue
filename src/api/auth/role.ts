@@ -4,6 +4,9 @@ import { RoleInfo } from "@/api/auth/types";
 export const pageApi = (params?: any) => {
   return getRequest<PageWrapper<RoleInfo>>("/auth/role/page", params)
 }
+export const roleDetail = (id: number) => {
+  return getRequest<RoleInfo>(`/auth/role/${id}/detail`)
+}
 export const deleteRole = (data: DataIds) => {
   return deleteRequest<boolean>("/auth/role", data)
 }
@@ -16,4 +19,7 @@ export const createRole = (data: RoleInfo) => {
 }
 export const checkUniqueCode = (code: string, notId?: number) => {
   return getRequest<boolean>("/auth/role/exist", { code, notId })
+}
+export const  allData = () => {
+  return getRequest<RoleInfo[]>("/auth/role/all")
 }
