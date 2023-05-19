@@ -47,6 +47,7 @@ module.exports = {
     "@typescript-eslint/no-empty-function": "off",
     "@typescript-eslint/no-non-null-assertion": "off",
     // "@typescript-eslint/comma-dangle": ["warn", "always-multiline"],
+    "@typescript-eslint/no-namespace": ["warn"],
     "@typescript-eslint/no-unused-vars": [
       "warn",
       {
