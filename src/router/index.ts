@@ -59,6 +59,10 @@ export const constantRoutes: RouteRecordRaw[] = [
     path: "/auth",
     component: Layout,
     redirect: "/role",
+    meta: {
+      title: "用户与权限",
+      elIcon: "Grid",
+    },
     children: [
       {
         path: "role",
@@ -66,6 +70,26 @@ export const constantRoutes: RouteRecordRaw[] = [
         name: "role-page",
         meta: {
           title: "角色管理",
+          svgIcon: "dashboard",
+          affix: true,
+        },
+      },
+      {
+        path: "permission",
+        component: () => import("@/views/auth/permission/index.vue"),
+        name: "permission-page",
+        meta: {
+          title: "权限元数据管理",
+          svgIcon: "dashboard",
+          affix: true,
+        },
+      },
+      {
+        path: "user",
+        component: () => import("@/views/auth/user/index.vue"),
+        name: "user-page",
+        meta: {
+          title: "用户管理",
           svgIcon: "dashboard",
           affix: true,
         },

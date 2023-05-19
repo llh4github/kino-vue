@@ -40,7 +40,7 @@ function createService() {
     (error) => {
       // Status 是 HTTP 状态码
       const status = get(error, "response.status")
-      const url = get(error, "config.url")
+      const url: string = get(error, "config.url")
       switch (status) {
         case 400:
           error.message = "请求错误"
@@ -54,7 +54,12 @@ function createService() {
           error.message = "拒绝访问"
           break
         case 404:
-          error.message = `未找到请求路径：/${url}`
+          // eslint-disable-next-line no-case-declarations
+          let _url = `/${url}`
+          if (url.startsWith("/")) {
+            _url = url
+          }
+          error.message = `未找到请求路径：${_url}`
           break
         case 408:
           error.message = "请求超时"
@@ -139,6 +144,7 @@ export function deleteRequest<T>(url: string, data?: any, params?: any) {
     data,
   })
 }
+
 export function putRequest<T>(url: string, data?: any, params?: any) {
   return request<JsonReposeData<T>>({
     url,

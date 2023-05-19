@@ -1,16 +1,16 @@
 <script setup lang="ts">
 import { CirclePlus, Delete, Refresh, RefreshRight, Search } from "@element-plus/icons-vue"
 import { reactive, ref, watch } from "vue";
-import { checkUniqueCode, createRole, deleteRole, pageApi, roleDetail, updateRole } from "@/api/auth/role"
-import { allData } from "@/api/auth/permission";
+import { deleteRole } from "@/api/auth/role"
 import { PermissionInfo, RoleInfo } from "@/api/auth/types";
 import { usePagination } from "@/hooks/usePagination";
 import { formatDateTime } from "@/utils";
 import { ElMessage, ElMessageBox, FormInstance, FormRules } from "element-plus";
+import { addData, checkCodeExist, deleteByIds, pageQuery, updateData } from "@/api/auth/permission";
 
 
 defineOptions({
-  name: "Role-Index-Page",
+  name: "Permission-Index-Page",
 })
 const loading = ref<boolean>(false)
 //region 搜索栏逻辑
@@ -30,18 +30,13 @@ const handleSearch = () => {
 
 //region 新增或更新逻辑
 const formRef = ref<FormInstance | null>(null)
-const formData = reactive<RoleInfo>({})
-const permissions = ref<PermissionInfo[]>([])
-const fetchAllPermissions = async () => {
-  const resp = await allData()
-  permissions.value = resp.data ?? []
-}
+const formData = reactive<PermissionInfo>({})
 const validateCode = (rule: any, value: any, callback: any) => {
   if (value.length < 3) {
     callback()
   } else {
     const id = formData.id
-    checkUniqueCode(value, id).then((res) => {
+    checkCodeExist(value, id).then((res) => {
       if (res.data) {
         callback(new Error("数据已存在"))
       } else {
@@ -51,39 +46,20 @@ const validateCode = (rule: any, value: any, callback: any) => {
   }
 }
 
-const controlDialog = async (row?: RoleInfo) => {
-  await fetchAllPermissions()
+const controlDialog = (row?: RoleInfo) => {
   formData.name = row?.name
   formData.id = row?.id
   formData.code = row?.code
-  if (row?.id) {
-    const resp = await roleDetail(row.id)
-    if (resp.data) {
-      const role = resp.data
-      formData.id = role.id
-      formData.name = role.name
-      formData.code = role.code
-      formData.permissionIds = role?.permissions
-        ?.map((ele) => ele.id)
-        .filter(ele => ele != undefined)
-        .map(ele => ele as number) ?? []
-      dialogVisible.value = true
-    } else {
-      ElMessage.error("数据不存在，请刷新后再试")
-      dialogVisible.value = false
-    }
-  } else {
-    dialogVisible.value = true
-  }
+  dialogVisible.value = true
 }
 const formRules: FormRules = reactive({
   code: [
-    { required: true, trigger: "blur", message: "请输入角色代码" },
+    { required: true, trigger: "blur", message: "请输入权限代码" },
     { min: 3, max: 10, message: "长度应该在 1 到 10 之间", trigger: "blur" },
     { validator: validateCode, trigger: "blur" },
   ],
   name: [
-    { required: true, trigger: "blur", message: "请输入角色名" },
+    { required: true, trigger: "blur", message: "请输入权限名" },
     { min: 1, max: 10, message: "长度应该在 1 到 10 之间", trigger: "blur" },
   ],
 })
@@ -95,12 +71,12 @@ const cancelDialog = () => {
 const handleCreateOrUpdate = () => {
   formRef.value?.validate((valid: boolean) => {
     if (valid) {
-      let requestMethod = updateRole
+      let requestMethod = updateData
       if (formData.id) {
         console.debug("有ID，调用更新接口")
       } else {
         console.debug("没有ID，调用创建接口")
-        requestMethod = createRole
+        requestMethod = addData
       }
       requestMethod(formData)
         .then(() => {
@@ -127,7 +103,7 @@ const handleRefresh = () => {
 }
 const getTableData = () => {
   loading.value = true
-  pageApi({
+  pageQuery({
     page: paginationData.currentPage,
     size: paginationData.pageSize,
     ...searchData,
@@ -154,7 +130,7 @@ const resetSearch = () => {
   paginationData.currentPage = 1
 }
 
-const handleSelectChange = (selections: RoleInfo[]) => {
+const handleSelectChange = (selections: PermissionInfo[]) => {
   const ids = selections.filter((ele) => ele.id).map((ele) => ele.id!)
   if (ids) {
     selectedIds.value = ids
@@ -179,7 +155,7 @@ const handleDeleteMuch = () => {
     cancelButtonText: "取消",
     type: "warning",
   }).then(() => {
-    deleteRole({ ids: selectedIds.value }).then(() => {
+    deleteByIds(selectedIds.value).then(() => {
       ElMessage.success("删除成功")
       getTableData()
     })
@@ -208,10 +184,10 @@ const handleDeleteOne = (row: any) => {
   <div class="app-container">
     <el-card v-loading="loading" shadow="never" class="search-wrapper">
       <el-form ref="searchFormRef" :inline="true" :model="searchData">
-        <el-form-item prop="code" label="角色代码">
+        <el-form-item prop="code" label="权限代码">
           <el-input v-model="searchData.code" placeholder="请输入" />
         </el-form-item>
-        <el-form-item prop="name" label="角色名">
+        <el-form-item prop="name" label="权限名">
           <el-input v-model="searchData.name" placeholder="请输入" />
         </el-form-item>
         <el-form-item>
@@ -223,7 +199,7 @@ const handleDeleteOne = (row: any) => {
     <el-card v-loading="loading" shadow="never">
       <div class="toolbar-wrapper">
         <div>
-          <el-button type="primary" :icon="CirclePlus" @click="controlDialog">新增角色</el-button>
+          <el-button type="primary" :icon="CirclePlus" @click="controlDialog">新增权限</el-button>
           <el-button type="danger" :icon="Delete" @click="handleDeleteMuch">批量删除</el-button>
         </div>
         <div>
@@ -242,8 +218,8 @@ const handleDeleteOne = (row: any) => {
                   @selection-change="handleSelectChange"
         >
           <el-table-column type="selection" width="50" align="center" />
-          <el-table-column prop="code" label="角色代码" align="center" />
-          <el-table-column prop="name" label="角色名" align="center" />
+          <el-table-column prop="code" label="权限代码" align="center" />
+          <el-table-column prop="name" label="权限名" align="center" />
           <el-table-column prop="createdTime" label="创建时间" align="center">
             <template #default="scope">
               {{ formatDateTime(scope.row.createdTime) }}
@@ -279,23 +255,11 @@ const handleDeleteOne = (row: any) => {
       <el-form ref="formRef" :model="formData" :rules="formRules"
                label-width="100px" label-position="left"
       >
-        <el-form-item prop="code" label="角色代码">
+        <el-form-item prop="code" label="权限代码">
           <el-input v-model="formData.code" placeholder="请输入" />
         </el-form-item>
-        <el-form-item prop="name" label="角色名">
+        <el-form-item prop="name" label="权限名">
           <el-input v-model="formData.name" placeholder="请输入" />
-        </el-form-item>
-        <el-form-item prop="permissionIds" label="拥有的权限">
-          <el-checkbox-group v-model="formData.permissionIds">
-            <template v-for="item in permissions">
-              <el-checkbox
-                :label="item.id"
-                :name="item.name"
-                :checked="formData?.permissionIds?.indexOf(item.id!!) > 0"
-              >{{ item.name }}
-              </el-checkbox>
-            </template>
-          </el-checkbox-group>
         </el-form-item>
       </el-form>
       <template #footer>

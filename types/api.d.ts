@@ -13,6 +13,20 @@ interface JsonReposeData<T> {
 }
 
 /**
+ * 分页查询参数
+ */
+interface PageParam {
+  /**
+   * 当前页码
+   */
+  page: number
+  /**
+   * 页面大小
+   */
+  size: number
+}
+
+/**
  * spring-data 通用分页包装类
  */
 interface PageWrapper<T> {
