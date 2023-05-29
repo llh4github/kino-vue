@@ -97,6 +97,21 @@ export const constantRoutes: RouteRecordRaw[] = [
     ],
   },
   {
+    path: "/system",
+    component: Layout,
+    redirect: "/system/menu",
+    children: [
+      {
+        path: "menu",
+        component: () => import("@/views/system/menu/index.vue"),
+        name: "menu",
+        meta: {
+          title: "菜单管理",
+        },
+      },
+    ],
+  },
+  {
     path: "/unocss",
     component: Layout,
     redirect: "/unocss/index",
