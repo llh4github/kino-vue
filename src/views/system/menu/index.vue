@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { MenuTreeData, treeList } from "@/api/system/menu";
 import { onMounted, reactive, ref } from "vue";
-import { ElTreeV2, FormInstance } from 'element-plus'
-import { Refresh, Search } from "@element-plus/icons-vue";
+import { ElTreeV2, FormInstance, TreeNode } from 'element-plus'
+import { Check, Edit, Message, Refresh, Search } from "@element-plus/icons-vue";
+import { TreeNodeData } from "element-plus/es/components/tree-v2/src/types";
 
 const loading = ref(false)
 defineOptions({
@@ -16,6 +17,7 @@ const searchData = reactive({
   name: undefined,
 })
 
+const showTools = ref<number | null>(null)
 const fetchTree = async () => {
   tree.value = (await treeList(searchData)).data
 }
@@ -34,6 +36,10 @@ const resetSearch = () => {
   } else {
     console.debug(`搜索表单的引用为空！ ${searchFormRef.value}`)
   }
+}
+
+const nodeClick = (data: TreeNodeData) => {
+  showTools.value = data.id
 }
 const treeProps = {
   label: 'name',
@@ -65,10 +71,22 @@ onMounted(() => {
       <el-tree-v2
         ref="treeRef"
         :data="tree"
-        :filter-method="handleSearch"
+        @node-click="nodeClick"
         :props="treeProps"
+        :item-size="35"
         :height="500"
-        show-checkbox />
+        show-checkbox>
+        <template #default="{node}">
+          <el-space wrap>
+            <el-text size="large">{{ node.label }}</el-text>
+            <el-row v-show="showTools == node.key">
+              <el-button type="primary" :icon="Edit" circle size="small" />
+              <el-button type="success" :icon="Check" circle size="small" />
+              <el-button type="info" :icon="Message" circle size="small" />
+            </el-row>
+          </el-space>
+        </template>
+      </el-tree-v2>
     </el-card>
   </div>
 </template>
