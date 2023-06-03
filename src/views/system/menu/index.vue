@@ -30,6 +30,7 @@ const handleSearch = () => {
 const resetSearch = () => {
   if (searchFormRef.value) {
     searchFormRef.value?.resetFields();
+    fetchTree()
   } else {
     console.debug(`搜索表单的引用为空！ ${searchFormRef.value}`)
   }
@@ -49,7 +50,7 @@ onMounted(() => {
         <el-form-item prop="name" label="菜单名">
           <el-input v-model="searchData.name" placeholder="请输入" />
         </el-form-item>
-        <el-form-item prop="code" label="路由路径">
+        <el-form-item prop="router" label="路由路径">
           <el-input v-model="searchData.router" placeholder="请输入" />
         </el-form-item>
         <el-form-item>
