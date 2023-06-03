@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { MenuTreeData, treeList } from "@/api/system/menu";
 import { onMounted, reactive, ref } from "vue";
-import { ElTreeV2, FormInstance } from 'element-plus'
+import { ElTreeV2, FormInstance, FormRules } from 'element-plus'
 import { Check, Edit, Message, Refresh, Search } from "@element-plus/icons-vue";
 import { TreeNodeData } from "element-plus/es/components/tree-v2/src/types";
 
@@ -11,7 +11,20 @@ defineOptions({
 })
 const tree = ref<MenuTreeData[]>([])
 
+const dialogVisible = ref(false)
+const formData = reactive({})
 
+const formRules: FormRules = reactive({})
+const formRef = ref<FormInstance | null>(null)
+
+const cancelDialog = () => {
+  console.debug("取消")
+  formRef.value?.clearValidate()
+  dialogVisible.value = false
+}
+const handleCreateOrUpdate = () => {
+  console.debug("handleCreateOrUpdate ")
+}
 const searchData = reactive({
   router: undefined,
   name: undefined,
@@ -30,8 +43,7 @@ const handleSearch = () => {
 }
 
 const handleEdit = () => {
-
-  console.log("handleEdit")
+  dialogVisible.value = true
 }
 const resetSearch = () => {
   if (searchFormRef.value) {
@@ -42,7 +54,7 @@ const resetSearch = () => {
   }
 }
 
-const nodeClick = (data: TreeNodeData ) => {
+const nodeClick = (data: TreeNodeData) => {
   showTools.value = data.id
 }
 const treeProps = {
@@ -92,6 +104,23 @@ onMounted(() => {
         </template>
       </el-tree-v2>
     </el-card>
+    <el-dialog
+      width="30%"
+      v-model="dialogVisible">
+
+      <el-form ref="formRef"
+               :model="formData"
+               :rules="formRules"
+               label-width="100px"
+               label-position="left"
+      >
+
+      </el-form>
+      <template #footer>
+        <el-button @click="cancelDialog">取消</el-button>
+        <el-button type="primary" @click="handleCreateOrUpdate">确认</el-button>
+      </template>
+    </el-dialog>
   </div>
 </template>
 
