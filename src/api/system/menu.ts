@@ -4,8 +4,8 @@ export function tree(id: number) {
   return getRequest<MenuTreeData>("/inner/menu/tree", id)
 }
 
-export function treeList(parentId?: number) {
-  return getRequest<MenuTreeData[]>("/inner/menu/treeList", parentId)
+export function treeList(query: MenuTreeListQuery) {
+  return getRequest<MenuTreeData[]>("/inner/menu/treeList", query)
 }
 
 export function updateData(data: MenuUpdateData) {
@@ -18,7 +18,11 @@ export function addData(data: MenuAddData) {
 
 
 // --- 下面是类型定义 ---
-
+interface MenuTreeListQuery {
+  parentId?: number
+  name?: string
+  router?: string
+}
 
 /**
  * MenuTreeData : 菜单树数据
@@ -78,7 +82,7 @@ export interface MenuUpdateData {
   router: string;
 }
 
-export interface MenuAddData{
+export interface MenuAddData {
   /**
    * 菜单名
    */

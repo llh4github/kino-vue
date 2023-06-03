@@ -2,7 +2,6 @@
 import { MenuTreeData, treeList } from "@/api/system/menu";
 import { onMounted, reactive, ref } from "vue";
 import { ElTreeV2, FormInstance } from 'element-plus'
-import type { TreeNode } from 'element-plus/es/components/tree-v2/src/types'
 import { Refresh, Search } from "@element-plus/icons-vue";
 
 const loading = ref(false)
@@ -10,24 +9,24 @@ defineOptions({
   name: "Menu-Index-Page",
 })
 const tree = ref<MenuTreeData[]>([])
-const fetchTree = async () => {
-  tree.value = (await treeList()).data
-}
+
 
 const searchData = reactive({
   router: undefined,
   name: undefined,
 })
 
+const fetchTree = async () => {
+  tree.value = (await treeList(searchData)).data
+}
 const searchFormRef = ref<FormInstance | null>(null)
 const treeRef = ref<InstanceType<typeof ElTreeV2>>()
 const handleSearch = () => {
-  treeRef.value!.filter(searchData.name)
+  loading.value = true
+  fetchTree()
+  loading.value = false
 }
-const filterMethod = (query: any, node: TreeNode) => {
-  console.log(query,node)
-  return node.label!.includes(query)
-}
+
 const resetSearch = () => {
   if (searchFormRef.value) {
     searchFormRef.value?.resetFields();
@@ -67,6 +66,7 @@ onMounted(() => {
         :data="tree"
         :filter-method="handleSearch"
         :props="treeProps"
+        :height="500"
         show-checkbox />
     </el-card>
   </div>
