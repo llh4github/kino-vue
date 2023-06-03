@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { MenuTreeData, treeList } from "@/api/system/menu";
 import { onMounted, reactive, ref } from "vue";
-import { ElTreeV2, FormInstance, TreeNode } from 'element-plus'
+import { ElTreeV2, FormInstance } from 'element-plus'
 import { Check, Edit, Message, Refresh, Search } from "@element-plus/icons-vue";
 import { TreeNodeData } from "element-plus/es/components/tree-v2/src/types";
 
@@ -29,6 +29,10 @@ const handleSearch = () => {
   loading.value = false
 }
 
+const handleEdit = () => {
+
+  console.log("handleEdit")
+}
 const resetSearch = () => {
   if (searchFormRef.value) {
     searchFormRef.value?.resetFields();
@@ -38,7 +42,7 @@ const resetSearch = () => {
   }
 }
 
-const nodeClick = (data: TreeNodeData) => {
+const nodeClick = (data: TreeNodeData ) => {
   showTools.value = data.id
 }
 const treeProps = {
@@ -79,8 +83,8 @@ onMounted(() => {
         <template #default="{node}">
           <el-space wrap>
             <el-text size="large">{{ node.label }}</el-text>
-            <el-row v-show="showTools == node.key">
-              <el-button type="primary" :icon="Edit" circle size="small" />
+            <el-row v-show="showTools == node.key" style="z-index: 999">
+              <el-button type="primary" :icon="Edit" @click.stop="handleEdit" circle size="small" />
               <el-button type="success" :icon="Check" circle size="small" />
               <el-button type="info" :icon="Message" circle size="small" />
             </el-row>
