@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { MenuTreeData, treeList } from "@/api/system/menu";
+import { addData, MenuAddOrUpdateData, MenuTreeData, treeList, updateData } from "@/api/system/menu";
 import { onMounted, reactive, ref } from "vue";
-import { ElTreeV2, FormInstance, FormRules } from 'element-plus'
-import { Check, Edit, Message, Refresh, Search } from "@element-plus/icons-vue";
+import { ElMessage, ElTreeSelect, ElTreeV2, FormInstance, FormRules } from 'element-plus'
+import { Check, Edit, Plus, Refresh, Search } from "@element-plus/icons-vue";
 import { TreeNodeData } from "element-plus/es/components/tree-v2/src/types";
 
 const loading = ref(false)
@@ -12,7 +12,7 @@ defineOptions({
 const tree = ref<MenuTreeData[]>([])
 
 const dialogVisible = ref(false)
-const formData = reactive({})
+const formData = reactive<MenuAddOrUpdateData>({ name: "", router: "" })
 
 const formRules: FormRules = reactive({})
 const formRef = ref<FormInstance | null>(null)
@@ -22,9 +22,7 @@ const cancelDialog = () => {
   formRef.value?.clearValidate()
   dialogVisible.value = false
 }
-const handleCreateOrUpdate = () => {
-  console.debug("handleCreateOrUpdate ")
-}
+
 const searchData = reactive({
   router: undefined,
   name: undefined,
@@ -42,8 +40,41 @@ const handleSearch = () => {
   loading.value = false
 }
 
-const handleEdit = () => {
+const submitUpdateOrAdd = () => {
+  formRef.value?.validate((valid: boolean) => {
+    if (valid) {
+      let requestMethod = updateData
+      if (formData.id) {
+        console.log(`修改菜单 ${formData.id} 数据`)
+      } else {
+        requestMethod = addData
+      }
+      requestMethod(formData).then(() => {
+        ElMessage.success("操作成功")
+        dialogVisible.value = false
+        formRef.value?.resetFields()
+        fetchTree()
+      })
+        .catch((e) => {
+          console.error("创建或更新数据失败！", e)
+        })
+    }
+  })
+}
+const handleEdit = (row?: MenuAddOrUpdateData) => {
   dialogVisible.value = true
+  if (row) {
+    formData.id = row.id
+    formData.name = row.name
+    formData.router = row.router
+    formData.parentId = row.parentId
+  }
+}
+const handleAdd = (row?: MenuAddOrUpdateData) => {
+  dialogVisible.value = true
+  if (row) {
+    formData.parentId = row.id
+  }
 }
 const resetSearch = () => {
   if (searchFormRef.value) {
@@ -96,9 +127,8 @@ onMounted(() => {
           <el-space wrap>
             <el-text size="large">{{ node.label }}</el-text>
             <el-row v-show="showTools == node.key" style="z-index: 999">
-              <el-button type="primary" :icon="Edit" @click.stop="handleEdit" circle size="small" />
-              <el-button type="success" :icon="Check" circle size="small" />
-              <el-button type="info" :icon="Message" circle size="small" />
+              <el-button type="primary" :icon="Edit" @click.stop="handleEdit(node.data)" circle size="small" />
+              <el-button type="success" :icon="Plus" @click.stop="handleAdd(node.data)" circle size="small" />
             </el-row>
           </el-space>
         </template>
@@ -106,6 +136,7 @@ onMounted(() => {
     </el-card>
     <el-dialog
       width="30%"
+      :title="formData.id != undefined ? '修改数据': '新增下级菜单'"
       v-model="dialogVisible">
 
       <el-form ref="formRef"
@@ -115,10 +146,28 @@ onMounted(() => {
                label-position="left"
       >
 
+        <el-form-item prop="name" label="菜单名称">
+          <el-input v-model="formData.name" placeholder="请输入" />
+        </el-form-item>
+
+        <el-form-item prop="router" label="菜单路由">
+          <el-input v-model="formData.router" placeholder="请输入" />
+        </el-form-item>
+
+        <el-form-item prop="parentId" label="上级菜单">
+          <el-tree-select
+            v-model="formData.parentId"
+            :data="tree"
+            check-strictly
+            value-key="id"
+            :props="treeProps"
+            :render-after-expand="false"
+          />
+        </el-form-item>
       </el-form>
       <template #footer>
         <el-button @click="cancelDialog">取消</el-button>
-        <el-button type="primary" @click="handleCreateOrUpdate">确认</el-button>
+        <el-button type="primary" @click="submitUpdateOrAdd">确认</el-button>
       </template>
     </el-dialog>
   </div>

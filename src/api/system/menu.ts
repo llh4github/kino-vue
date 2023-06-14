@@ -8,11 +8,11 @@ export function treeList(query: MenuTreeListQuery) {
   return getRequest<MenuTreeData[]>("/inner/menu/treeList", query)
 }
 
-export function updateData(data: MenuUpdateData) {
+export function updateData(data: MenuAddOrUpdateData) {
   return putRequest<boolean>("/inner/menu", data)
 }
 
-export function addData(data: MenuAddData) {
+export function addData(data: MenuAddOrUpdateData  ) {
   return postRequest<boolean>("/inner/menu", data)
 }
 
@@ -23,6 +23,16 @@ interface MenuTreeListQuery {
   name?: string
   router?: string
 }
+
+export interface MenuAddOrUpdateData {
+  parentId?: number
+  name: string
+  router: string
+  id?:number
+}
+
+
+
 
 /**
  * MenuTreeData : 菜单树数据
