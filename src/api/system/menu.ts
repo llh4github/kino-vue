@@ -1,4 +1,4 @@
-import { getRequest, postRequest, putRequest } from "@/utils/service";
+import { deleteRequest, getRequest, postRequest, putRequest } from "@/utils/service";
 
 export function tree(id: number) {
   return getRequest<MenuTreeData>("/inner/menu/tree", id)
@@ -12,10 +12,13 @@ export function updateData(data: MenuAddOrUpdateData) {
   return putRequest<boolean>("/inner/menu", data)
 }
 
-export function addData(data: MenuAddOrUpdateData  ) {
+export function addData(data: MenuAddOrUpdateData) {
   return postRequest<boolean>("/inner/menu", data)
 }
 
+export function deleteData(id: number) {
+  return deleteRequest<number>("/inner/menu", { id })
+}
 
 // --- 下面是类型定义 ---
 interface MenuTreeListQuery {
@@ -28,10 +31,8 @@ export interface MenuAddOrUpdateData {
   parentId?: number
   name: string
   router: string
-  id?:number
+  id?: number
 }
-
-
 
 
 /**

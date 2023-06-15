@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { addData, MenuAddOrUpdateData, MenuTreeData, treeList, updateData } from "@/api/system/menu";
+import { addData, deleteData, MenuAddOrUpdateData, MenuTreeData, treeList, updateData } from "@/api/system/menu";
 import { onMounted, reactive, ref } from "vue";
-import { ElMessage, ElTreeSelect, ElTreeV2, FormInstance, FormRules } from 'element-plus'
-import { Check, Edit, Plus, Refresh, Search } from "@element-plus/icons-vue";
+import { ElMessage, ElMessageBox, ElTreeSelect, ElTreeV2, FormInstance, FormRules } from 'element-plus'
+import { Delete, Edit, Plus, Refresh, Search } from "@element-plus/icons-vue";
 import { TreeNodeData } from "element-plus/es/components/tree-v2/src/types";
 
 const loading = ref(false)
@@ -76,6 +76,28 @@ const handleAdd = (row?: MenuAddOrUpdateData) => {
     formData.parentId = row.id
   }
 }
+const handleDelete = (row: MenuAddOrUpdateData) => {
+  const id = row.id
+  if (id) {
+    ElMessageBox.confirm("删除当前及其所有子菜单？")
+      .then(() => {
+        deleteData(id)
+          .then(res => {
+            ElMessage({ type: "info", message: `删除${res.data}条数据` })
+            fetchTree()
+          })
+          .catch(e => {
+            console.error("删除菜单数据失败！", e)
+          })
+      })
+  } else {
+    ElMessage({
+      type: "info",
+      message: "请刷新页面后再试",
+    })
+  }
+
+}
 const resetSearch = () => {
   if (searchFormRef.value) {
     searchFormRef.value?.resetFields();
@@ -121,14 +143,14 @@ onMounted(() => {
         @node-click="nodeClick"
         :props="treeProps"
         :item-size="35"
-        :height="500"
-        show-checkbox>
+        :height="500">
         <template #default="{node}">
           <el-space wrap>
             <el-text size="large">{{ node.label }}</el-text>
             <el-row v-show="showTools == node.key" style="z-index: 999">
               <el-button type="primary" :icon="Edit" @click.stop="handleEdit(node.data)" circle size="small" />
               <el-button type="success" :icon="Plus" @click.stop="handleAdd(node.data)" circle size="small" />
+              <el-button type="warning" :icon="Delete" @click.stop="handleDelete(node.data)" circle size="small" />
             </el-row>
           </el-space>
         </template>
