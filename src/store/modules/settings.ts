@@ -5,7 +5,8 @@ import layoutSettings from "@/config/layout"
 export const useSettingsStore = defineStore("settings", () => {
   const fixedHeader = ref<boolean>(layoutSettings.fixedHeader)
   const showSettings = ref<boolean>(layoutSettings.showSettings)
-  const showTagsView = ref<boolean>(layoutSettings.showTagsView)
+  // const showTagsView = ref<boolean>(layoutSettings.showTagsView)
+  const showTagsView = ref<boolean>(false)
   const showSidebarLogo = ref<boolean>(layoutSettings.showSidebarLogo)
   const showNotify = ref<boolean>(layoutSettings.showNotify)
   const showThemeSwitch = ref<boolean>(layoutSettings.showThemeSwitch)
